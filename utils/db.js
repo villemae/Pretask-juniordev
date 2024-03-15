@@ -7,13 +7,12 @@ mongoose.set('strictQuery', false);
 Logger.info(`connecting to ${MONGODB_URI}`);
 
 const connectDB = async () => {
-    mongoose.connect(MONGODB_URI)
-    .then(() => {
+    try {
+        await mongoose.connect(MONGODB_URI);
         Logger.info('connected to MongoDB');
-    })
-    .catch(error => {
-        Logger.error('error connecting to MongoDB', error.message);
-    })
-}
+    } catch(error) {
+        throw new Error(`MongoDB connection error: ${error}`);
+    }
+};
 
 export default connectDB;
