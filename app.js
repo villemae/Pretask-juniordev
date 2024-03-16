@@ -7,7 +7,7 @@ function createApp() {
     app.use(cors());
     app.use(express.json());
 
-    app.use('/api/v1/event', eventsRouter);
+    app.use('/api/v1', eventsRouter);
     return app;
 }
 

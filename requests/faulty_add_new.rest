@@ -3,9 +3,9 @@ Content-Type: application/json
 
 {
     "name": "Test-Event-2",
-    "dates": [
-        "2024-02-18",
-        "2024-02-05",
-        "2024-02-02"
+    "people_voted": [
+        "Aku",
+        "Iines",
+        "Hannu"
     ]
 }

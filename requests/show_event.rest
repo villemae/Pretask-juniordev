@@ -1,1 +1,1 @@
-GET http://localhost:3000/api/v1/event/65f55dbe5b16fcdbe24d9652
+GET http://localhost:3000/api/v1/event/65f59a959157439c8cdb5fa1

@@ -27,8 +27,11 @@ const formatAddVotes = (data) => {
     return data.toJSON( { deleteVoteIds: true });
 }
 
-const formatShowSuitable = (data) => {
-    Logger.debug(data);
+const formatShowSuitable = (doc, dates) => {
+    Logger.debug(doc, dates);
+    const compact = doc.toJSON({ compact: true, deleteVoteIds: true });
+    const result = {...compact, "suitableDates": dates};
+    return result;
 }
 
 export { 

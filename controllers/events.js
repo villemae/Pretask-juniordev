@@ -6,7 +6,7 @@ import * as Formatter from '../utils/formatter.js';
 const eventsRouter = express.Router();
 
 // Show all events
-eventsRouter.get('/list', async (req, res) => {
+eventsRouter.get('/event/list', async (req, res) => {
     try {
         const docs = await Event.find({});
         const events = Formatter.formatGetAll(docs);
@@ -14,14 +14,21 @@ eventsRouter.get('/list', async (req, res) => {
 
     } catch(error) {
         Logger.error(error.message);
-        res.status(500);
+        res.status(500).json(error.message);
     }
 });
 
 
 // Add a new event
-eventsRouter.post('/', async (req, res) => {
+eventsRouter.post('/event/', async (req, res) => {
     try {
+        Logger.debug(req.body.name);
+        Logger.debug(req.body.dates);
+        Logger.debug(req.body.people_voted);
+        // Prevent faulty request body
+        if (!req.body.name || !req.body.dates || req.body.people_voted || req.body.votes) {
+            throw new Error('Faulty request body');
+        }
         const data = new Event(req.body);
         const doc = await data.save();
         const id = Formatter.formatAddNew(doc);
@@ -29,13 +36,13 @@ eventsRouter.post('/', async (req, res) => {
         res.status(201).json(id);
     } catch(error) {
         Logger.error(error.message);
-        res.status(500);
+        res.status(500).json(error.message);
     }
 });
 
 
 // Show an event with given id
-eventsRouter.get('/:id', async (req, res) => {
+eventsRouter.get('/event/:id', async (req, res) => {
     try {
         Logger.debug("Show an event");
         const doc = await Event.findById(req.params.id);
@@ -43,13 +50,13 @@ eventsRouter.get('/:id', async (req, res) => {
         res.status(200).json(event);
     } catch(error) {
         Logger.error(error.message);
-        res.status(500);
+        res.status(500).json(error.message);
     }
 });
 
 
 // Add votes to an event
-eventsRouter.post('/:id/vote', async (req, res) => {
+eventsRouter.post('/event/:id/vote', async (req, res) => {
     try {
         Logger.debug('Add votes to an event');
 
@@ -93,20 +100,44 @@ eventsRouter.post('/:id/vote', async (req, res) => {
                 event.votes.push(vote);
             }
         })
+        // Add voting person's name to database to keep track of all participants
+        if (!event.people_voted.includes(req.body.name)) {
+            event.people_voted.push(req.body.name);
+        }
         const doc = await event.save();
         const result = Formatter.formatAddVotes(doc);
         res.status(200).json(result);
     } catch(error) {
         Logger.error(error.message);
-        res.status(500);
+        res.status(500).json(error.message);
     }
 });
 
 
 // Show dates of a given event that are suitable for all participants 
-eventsRouter.get('/:id/results', (req, res) => {
+eventsRouter.get('/event/:id/results', async (req, res) => {
     Logger.debug('Responds with dates that are suitable for all participants.');
-    //TODO
+    try {
+        const doc = await Event.findById(req.params.id);
+        const all_participants = doc.people_voted.length;
+        Logger.debug(all_participants);
+        const suitable_dates = [];
+        doc.votes.forEach((date) => {
+            if (date.people.length === all_participants) {
+                suitable_dates.push(date);
+            }
+        })
+        if (suitable_dates.length === 0) {
+            res.status(404).json('No suitable dates found');
+        } else {
+        const result = Formatter.formatShowSuitable(doc, suitable_dates);
+        res.status(200).json(result);
+        }
+
+    } catch(error) {
+        Logger.error(error.message);
+        res.status(500).json(error.message);
+    }
 });
 
 
