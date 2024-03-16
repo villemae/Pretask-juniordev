@@ -6,4 +6,8 @@ const error = (...params) => {
     console.error("ERROR:", ...params);
 }
 
-export { info, error };
+const debug = (...params) => {
+    console.log("DEBUG:", ...params);
+}
+
+export { info, error, debug };

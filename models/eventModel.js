@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const vote = {
     date: Date,
@@ -8,18 +8,34 @@ const vote = {
 const eventSchema = new mongoose.Schema({
     name: String,
     dates: [Date],
-    votes: [vote]
+    votes: {
+        type: [vote],
+        default: []
+    }
 });
 
 eventSchema.set('toJSON', {
-    transform: (document, returnedObject) => {
+    transform: (document, returnedObject, options) => {
         returnedObject.id = returnedObject._id.toString();
         delete returnedObject._id;
         delete returnedObject.__v;
-        delete returnedObject.dates;
+        if (options && options.justId) {
+            delete returnedObject.dates;
+            delete returnedObject.votes;
+            delete returnedObject.name;
+        }
+        else if (options && options.compact) {
+            delete returnedObject.dates;
+            delete returnedObject.votes;
+        }
+        else if (options && options.deleteVoteIds) {
+            returnedObject.votes.forEach(vote => {
+                delete vote._id;
+            });
+        }
     }
 });
 
 const Event = mongoose.model('Event', eventSchema);
 
-export { Event };
+export { Event, vote };
