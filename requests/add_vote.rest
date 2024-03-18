@@ -2,7 +2,7 @@ POST http://localhost:3000/api/v1/event/65f59a959157439c8cdb5fa1/vote
 Content-Type: application/json
 
 {
-    "name": "Iines Ankka",
+    "name": "Mummo Ankka",
     "votes": [
         "2024-02-02"
     ]

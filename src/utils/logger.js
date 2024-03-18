@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
+
 const info = (...params) => {
     console.log('INFO:', ...params);
 };
@@ -7,7 +10,9 @@ const error = (...params) => {
 };
 
 const debug = (...params) => {
-    console.log('DEBUG:', ...params);
+    if (process.env.NODE_ENV === 'development') {
+        console.log('DEBUG:', ...params);
+    }
 };
 
 export { info, error, debug };
