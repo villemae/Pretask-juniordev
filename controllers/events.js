@@ -1,5 +1,5 @@
 import express from 'express';
-import { Event, vote } from '../models/eventModel.js';
+import { Event } from '../models/eventModel.js';
 import * as Logger from '../utils/logger.js';
 import * as Formatter from '../utils/formatter.js';
 
@@ -44,7 +44,7 @@ eventsRouter.post('/event/', async (req, res) => {
 // Show an event with given id
 eventsRouter.get('/event/:id', async (req, res) => {
     try {
-        Logger.debug("Show an event");
+        Logger.debug('Show an event');
         const doc = await Event.findById(req.params.id);
         const event = Formatter.formatShowEvent(doc);
         res.status(200).json(event);
@@ -74,10 +74,10 @@ eventsRouter.post('/event/:id/vote', async (req, res) => {
                 if (String(date_obj) === String(value)) {
                     valid_dates.push(date_obj);
                 }
-            })
-        })
+            });
+        });
         if (valid_dates.length === 0) {
-            throw new Error('The event doesn\'t have available dates for given votes')
+            throw new Error('The event doesn\'t have available dates for given votes');
         }
 
         // Update the votes information of the event
@@ -93,13 +93,13 @@ eventsRouter.post('/event/:id/vote', async (req, res) => {
                     }
                     match = true;
                 }
-            })
+            });
             // If nobody has voted the date yet, add it
             if (!match) {
                 const vote = {date: date, people: [req.body.name]};
                 event.votes.push(vote);
             }
-        })
+        });
         // Add voting person's name to database to keep track of all participants
         if (!event.people_voted.includes(req.body.name)) {
             event.people_voted.push(req.body.name);
@@ -126,12 +126,12 @@ eventsRouter.get('/event/:id/results', async (req, res) => {
             if (date.people.length === all_participants) {
                 suitable_dates.push(date);
             }
-        })
+        });
         if (suitable_dates.length === 0) {
             res.status(404).json('No suitable dates found');
         } else {
-        const result = Formatter.formatShowSuitable(doc, suitable_dates);
-        res.status(200).json(result);
+            const result = Formatter.formatShowSuitable(doc, suitable_dates);
+            res.status(200).json(result);
         }
 
     } catch(error) {

@@ -42,7 +42,6 @@ Example requests (.rest) are provided in the ./requests/ folder that can be sent
 
 ### Command line (not recommended)
 
-
 When the application is up and running, open a new command line window to send requests. This approach might be slow and the response format hard to read.
 
 To list all events:

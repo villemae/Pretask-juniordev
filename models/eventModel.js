@@ -32,10 +32,10 @@ eventSchema.set('toJSON', {
         else if (options && options.results) {
             returnedObject.votes.forEach(vote => {
                 delete vote._id;
-            })
+            });
             returnedObject.suitableDates.forEach(date => {
                 delete date._id;
-            })
+            });
         }
 
         else if (options && options.compact) {

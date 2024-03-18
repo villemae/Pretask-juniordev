@@ -2,7 +2,7 @@ POST http://localhost:3000/api/v1/event
 Content-Type: application/json
 
 {
-    "name": "Test-Event-2",
+    "name": "Test-Event-3",
     "dates": [
         "2024-02-18",
         "2024-02-05",
