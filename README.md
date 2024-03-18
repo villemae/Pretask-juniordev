@@ -20,6 +20,7 @@ To install the application:
 The application requires `.env` file in order to define a port and to connect to the MongoDB database. There should be two environment variables declared in the file, `PORT` and `MONGODB_URI`. The example file contents could be:
 
 `PORT=3000`
+
 `MONGODB_URI=mongodb+srv://{username}:{password}@cluster0.tiuvxsv.mongodb.net/eventShuffle?retryWrites=true&w=majority&appName=Cluster0`
 
 The above mentioned mongodb url address includes placeholders for `username` and `password`. These should be replaced with credentials that have access rights to read and write into database. There is also a .env.example file provided as an example.
@@ -40,12 +41,14 @@ Example requests (.rest) are provided in the ./requests/ folder that can be sent
 1. Install Postman: https://www.postman.com/
 2. Follow instructions on how to send requests using Postman
 
-### Command line (not recommended)
+### Command line
 
-When the application is up and running, open a new command line window to send requests. This approach might be slow and the response format hard to read.
+When the application is up and running, open a new command line window to send requests. This approach isn't the most optimal one, since it might be slower than others and the response format can be hard to read.
 
 To list all events:
+
 `curl -X GET http://localhost:3000/api/v1/event/list`
 
 To add a new event:
+
 `curl -X POST -H "Content-Type: application/json" -d '{ "name": "Test-Event-2", "dates": ["2024-02-18", "2024-02-05", "2024-02-02"] }' http://localhost:3000/api/v1/event`
