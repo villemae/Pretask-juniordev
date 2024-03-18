@@ -41,9 +41,9 @@ Example requests (.rest) are provided in the ./requests/ folder that can be sent
 1. Install Postman: https://www.postman.com/
 2. Follow instructions on how to send requests using Postman
 
-### Command line (not recommended)
+### Command line
 
-When the application is up and running, open a new command line window to send requests. This approach might be slow and the response format hard to read.
+When the application is up and running, open a new command line window to send requests. This approach isn't the most optimal one, since it might be slower than others and the response format can be hard to read.
 
 To list all events:
 
