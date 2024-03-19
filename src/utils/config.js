@@ -10,7 +10,7 @@ const ensureEnvVariable = (variableName, variable) => {
     return variable;
 };
 
-const PORT = ensureEnvVariable('PORT', process.env.PORT ?? '8080');
+const PORT = ensureEnvVariable('PORT', process.env.PORT);
 
 const MONGODB_URI = ensureEnvVariable('MONGODB_URI', process.env.MONGODB_URI);
 
